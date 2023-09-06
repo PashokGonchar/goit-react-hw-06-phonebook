@@ -1,8 +1,16 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { FilterDiv, FilterLabel, FilterInput } from './ContactFilters.styled';
-import PropTypes from 'prop-types';
+import { setFilter } from 'redux/filterSlice';
 
 
-const Filter = ({ filter, handleFilterChange }) => {
+const Filter = () => {
+  const dispatch = useDispatch()
+  
+const filter = useSelector(state => state.filter);
+
+  const onInputChange = e => {
+    dispatch(setFilter(e.currentTarget.value))
+  }
   return (
     <FilterDiv>
       <FilterLabel htmlFor="filter">Find contacts by name</FilterLabel>
@@ -10,7 +18,7 @@ const Filter = ({ filter, handleFilterChange }) => {
         type="text"
         name="filter"
         value={filter}
-        onChange={handleFilterChange}
+        onChange={onInputChange}
         placeholder="Enter name to search please..."
       />
     </FilterDiv>
@@ -18,8 +26,3 @@ const Filter = ({ filter, handleFilterChange }) => {
 };
 
 export default Filter;
-
-Filter.propTypes = {
-  handleFilterChange: PropTypes.func.isRequired,
-  filter: PropTypes.string.isRequired,
-};
