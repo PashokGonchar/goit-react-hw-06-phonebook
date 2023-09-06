@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { Form, Input, Label, SubmitButton } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { add } from 'redux/contactsSlice';
+import Notiflix from 'notiflix';
 
 const ContactFormPage = () => {
   const [name, setName] = useState('');
@@ -24,6 +25,16 @@ const ContactFormPage = () => {
 
     const handleSubmitForm = e => {
       e.preventDefault();
+
+    if (contacts.some(contact => contact.name === name)) {
+      Notiflix.Notify.info(`${name} вже існує!`);
+      return;
+    }
+
+    if (contacts.some(contact => contact.number === number)) {
+      Notiflix.Notify.info(`${number} вже є у цьому списку контактів!`);
+      return;
+    }
 
     const newContact = {
       name: name,
