@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Form, Input, Label, SubmitButton } from './ContactForm.styled';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { add } from 'redux/contactsSlice';
 
-const ContactFormPage = (props) => {
+const ContactFormPage = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  
+  const {contacts} = useSelector((state)=> state.contacts)
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   const handleInputName = e => {
      setName(e.target.value);
@@ -16,11 +24,19 @@ const ContactFormPage = (props) => {
 
     const handleSubmitForm = e => {
       e.preventDefault();
-      
-      props.onSubmit(name, number);
+
+    const newContact = {
+      name: name,
+      number: number,
+      id: nanoid(),
+    };
+
+      dispatch(add(newContact))
+    
       setName('');
       setNumber('');
-    };
+  };
+
 
   return (
     <Form onSubmit={handleSubmitForm}>
@@ -51,7 +67,3 @@ const ContactFormPage = (props) => {
 }
 
 export default ContactFormPage;
-
-ContactFormPage.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};

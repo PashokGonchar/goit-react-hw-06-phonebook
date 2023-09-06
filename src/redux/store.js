@@ -8,21 +8,21 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { itemsReducer } from "./contactsSlice";
+import { combineReducers } from 'redux';
 import { filtersReducer } from "./filterSlice";
 import storage from 'redux-persist/lib/storage';
-
-const { combineReducers, configureStore } = require("@reduxjs/toolkit");
-
-const rootReducer = combineReducers({
-    filter: filtersReducer,
-    items:itemsReducer,
-})
+import contactsSlice from './contactsSlice';
+import { configureStore } from '@reduxjs/toolkit';
 
 const persistConfig = {
     key: "root",
     storage,
 };
+
+const rootReducer = combineReducers({
+  filter: filtersReducer,
+  contacts: contactsSlice,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

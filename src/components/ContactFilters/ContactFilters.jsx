@@ -1,15 +1,21 @@
-import PropTypes from 'prop-types';
 import { FilterDiv, FilterLabel, FilterInput } from './ContactFilters.styled';
+import { useState } from 'react';
 
-const Filter = ({ value, onChange }) => {
+const Filter = () => {
+const [filter, setFilter] = useState('');
+
+const handleFilterChange = e => {
+  setFilter(e.target.value);
+};
+
   return (
     <FilterDiv>
       <FilterLabel htmlFor="filter">Find contacts by name</FilterLabel>
       <FilterInput
         type="text"
         id="filter"
-        value={value}
-        onChange={onChange}
+        value={filter}
+        onChange={handleFilterChange}
         placeholder="Enter name to search please..."
       />
     </FilterDiv>
@@ -17,8 +23,3 @@ const Filter = ({ value, onChange }) => {
 };
 
 export default Filter;
-
-Filter.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
