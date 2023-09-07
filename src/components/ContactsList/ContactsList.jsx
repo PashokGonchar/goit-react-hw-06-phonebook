@@ -1,6 +1,7 @@
+import { remove } from 'redux/contactsSlice';
 import { ListBtn, ListLi } from './ContactList.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { remove } from 'redux/contactsSlice';
+
 
 const ContactListPage = () => {
   const dispatch = useDispatch();
@@ -9,8 +10,8 @@ const ContactListPage = () => {
 
   const getFilteredContacts = () => {
     const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contacts =>
-      contacts.name.toLowerCase().includes(normalizedFilter)
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
   const filteredContacts = getFilteredContacts();
@@ -18,10 +19,10 @@ const ContactListPage = () => {
   return (
     <div>
       <ul>
-        {filteredContacts.map(({ id, name, number }) => (
-          <ListLi key={id}>
-            {name}: {number}
-            <ListBtn type="button" onClick={() => dispatch(remove(id))}>
+        {filteredContacts.map(contact => (
+          <ListLi key={contact.id}>
+            {contact.name}:{contact.number}
+            <ListBtn type="button" onClick={() => dispatch(remove(contact.id))}>
               Delete contact
             </ListBtn>
           </ListLi>

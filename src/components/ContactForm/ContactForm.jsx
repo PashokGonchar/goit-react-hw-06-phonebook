@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Form, Input, Label, SubmitButton } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { add } from 'redux/contactsSlice';
 import Notiflix from 'notiflix';
+import { add } from 'redux/contactsSlice';
 
 const ContactFormPage = () => {
   const [name, setName] = useState('');
@@ -37,8 +37,8 @@ const ContactFormPage = () => {
     }
 
     const newContact = {
-      name: name,
-      number: number,
+      name,
+      number,
       id: nanoid(),
     };
 
